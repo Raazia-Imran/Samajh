@@ -1,0 +1,96 @@
+commit efd5186c73c1d95d33a1aa172d4077731e9c2ef2
+Author:     Codex <codex@openai.com>
+AuthorDate: Sat Oct 31 14:01:42 2026 +0500
+Commit:     Codex <codex@openai.com>
+CommitDate: Sat Oct 31 14:01:42 2026 +0500
+
+    Update Site source
+
+ .openai/hosting.json |  6 ++++++
+ font-source.css      | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+
+commit 800ad44ab5baec6e183f0f158376d3184fe4b383
+Author:     Samajh development <dev@samajh.local>
+AuthorDate: Sat Oct 31 14:01:03 2026 +0500
+Commit:     Samajh development <dev@samajh.local>
+CommitDate: Sat Oct 31 14:01:03 2026 +0500
+
+    Add captioned visual guides, local fonts, privacy controls, and verified delivery documentation
+
+ .gitignore                        |   7 +++
+ README.md                         |  86 +++++++++++++++++++++++++++++++++++
+ dist/_headers                     |   5 ++
+ dist/app.js                       |  14 +++---
+ dist/assets/access-guide.mp4      | Bin 0 -> 51918 bytes
+ dist/assets/access-guide.vtt      |  11 +++++
+ dist/assets/access-poster.png     | Bin 0 -> 16021 bytes
+ dist/assets/blur-guide.mp4        | Bin 0 -> 49985 bytes
+ dist/assets/blur-guide.vtt        |  11 +++++
+ dist/assets/blur-poster.png       | Bin 0 -> 15747 bytes
+ dist/assets/copy-guide.mp4        | Bin 0 -> 53974 bytes
+ dist/assets/copy-guide.vtt        |  11 +++++
+ dist/assets/copy-poster.png       | Bin 0 -> 15375 bytes
+ dist/assets/fonts/dm-sans-400.ttf | Bin 0 -> 48280 bytes
+ dist/assets/fonts/dm-sans-500.ttf | Bin 0 -> 48308 bytes
+ dist/assets/fonts/dm-sans-600.ttf | Bin 0 -> 48280 bytes
+ dist/assets/fonts/dm-sans-700.ttf | Bin 0 -> 48200 bytes
+ dist/assets/fonts/dmsans-OFL.txt  |  93 ++++++++++++++++++++++++++++++++++++++
+ dist/assets/fonts/manrope-500.ttf | Bin 0 -> 96300 bytes
+ dist/assets/fonts/manrope-600.ttf | Bin 0 -> 96348 bytes
+ dist/assets/fonts/manrope-700.ttf | Bin 0 -> 96188 bytes
+ dist/assets/fonts/manrope-800.ttf | Bin 0 -> 96816 bytes
+ dist/assets/fonts/manrope-OFL.txt |  93 ++++++++++++++++++++++++++++++++++++++
+ dist/assets/form-guide.mp4        | Bin 0 -> 48347 bytes
+ dist/assets/form-guide.vtt        |  11 +++++
+ dist/assets/form-poster.png       | Bin 0 -> 13754 bytes
+ dist/assets/hello-samajh.mp4      | Bin 0 -> 65877 bytes
+ dist/assets/intro.vtt             |  13 ++++++
+ dist/assets/join-guide.mp4        | Bin 0 -> 46737 bytes
+ dist/assets/join-guide.vtt        |  11 +++++
+ dist/assets/join-poster.png       | Bin 0 -> 14160 bytes
+ dist/assets/mic-guide.mp4         | Bin 0 -> 50493 bytes
+ dist/assets/mic-guide.vtt         |  11 +++++
+ dist/assets/mic-poster.png        | Bin 0 -> 13901 bytes
+ dist/assets/pdf-guide.mp4         | Bin 0 -> 48091 bytes
+ dist/assets/pdf-guide.vtt         |  11 +++++
+ dist/assets/pdf-poster.png        | Bin 0 -> 14553 bytes
+ dist/assets/share-guide.mp4       | Bin 0 -> 53151 bytes
+ dist/assets/share-guide.vtt       |  11 +++++
+ dist/assets/share-poster.png      | Bin 0 -> 14669 bytes
+ dist/assets/video-poster.png      | Bin 0 -> 16560 bytes
+ dist/style.css                    |  59 +++++++++++++++++++++++-
+ docs/QA.md                        |  26 +++++++++++
+ docs/TEAM_GUIDE.md                |  33 ++++++++++++++
+ tools/local_fonts.py              |  14 ++++++
+ tools/make_intro.py               |  40 ++++++++++++++++
+ tools/make_task_videos.py         |  43 ++++++++++++++++++
+ tools/tasks.json                  |   1 +
+ 48 files changed, 607 insertions(+), 8 deletions(-)
+
+commit e6b271f7a465563fc81e4ae98b5407b3eb946b27
+Author:     Samajh development <dev@samajh.local>
+AuthorDate: Sat Oct 31 13:53:28 2026 +0500
+Commit:     Samajh development <dev@samajh.local>
+CommitDate: Sat Oct 31 13:53:28 2026 +0500
+
+    Implement eight interactive learning tasks, transfer attempts, and helper guides
+
+ dist/app.js           | 86 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ dist/engine.js        | 29 +++++++++++++++++
+ package.json          | 15 +++++++++
+ tests/engine.test.mjs | 13 ++++++++
+ 4 files changed, 143 insertions(+)
+
+commit 8042962116456f558cbb234816d001ac4797cb9a
+Author:     Samajh development <dev@samajh.local>
+AuthorDate: Sat Oct 31 13:47:36 2026 +0500
+Commit:     Samajh development <dev@samajh.local>
+CommitDate: Sat Oct 31 13:47:36 2026 +0500
+
+    Create accessible application shell and visual system
+
+ dist/assets/favicon.svg | 1 +
+ dist/index.html         | 2 ++
+ dist/style.css          | 7 +++++++
+ 3 files changed, 10 insertions(+)

@@ -1,0 +1,15 @@
+{
+  "name": "samajh",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Accessible digital learning companion",
+  "scripts": {
+    "test": "node --test tests/engine.test.mjs",
+    "check": "node --check dist/app.js && node --check dist/engine.js",
+    "start": "python3 -m http.server 3000 --directory dist"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
