@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloud learning · Samajh</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="live.css">
+</head>
+<body class="live-body">
+  <a class="skip-link" href="#main">Skip to learning account</a>
+  <header class="live-header"><a href="index.html#home" class="brand"><img src="assets/favicon.svg" alt="">samajh<span class="dot">.</span></a><nav aria-label="Main navigation"><a href="index.html#library">Safe practice</a><a href="live.html">Real tools</a></nav></header>
+  <main class="live-main" id="main">
+    <section class="live-hero"><div><span class="eyebrow">YOUR OPTIONAL ACCOUNT</span><h1>Keep your learning with you.</h1><p>Save your practice observations to your own account. You can also keep using Samajh without signing in.</p><a href="index.html#progress" class="btn btn-secondary">My device's learning history</a></div><div class="live-hero-emblem" aria-hidden="true">✓<small>Your place.<br>Your pace.</small></div></section>
+    <div class="live-notice">Cloud records contain the task, whether it was a different-view attempt, the hint count and completion time. Files, meeting invitations, helper notes and media are not uploaded. Device records are separate until you explicitly import them.</div>
+    <section class="live-card" id="account-state"><h2 id="account-heading">Sign in by email</h2><p id="account-status" class="live-account-status" role="status" aria-live="polite">Connecting to the account service…</p><form id="email-form" class="live-account-form" hidden><label for="account-email">Your email address</label><input id="account-email" class="text-field" type="email" required autocomplete="email"><button class="btn btn-primary" type="submit">Send sign-in link</button><p class="micro">Open the link in the same browser you used to request it. Only request a link for your own email.</p></form><p id="account-identity" hidden></p><div id="account-actions" hidden><div class="live-account-actions"><button id="sync" class="btn btn-primary">Import my saved device records</button><button id="refresh" class="btn btn-secondary">Refresh cloud history</button><button id="sign-out" class="btn btn-secondary">Sign out</button></div><p class="micro">Import is explicit and only reads history previously saved on this browser. Verify that this is your account. Signing out does not erase device history.</p><h3>Cloud history</h3><ol id="cloud-history" class="live-account-list"></ol><p id="cloud-empty"></p><button id="delete-history" class="btn btn-secondary">Delete cloud history</button></div><noscript>Enable JavaScript to use cloud learning.</noscript></section>
+    <footer class="live-footer"><span>Private, separate records. Practice is not certification.</span><a href="index.html#home">Back to Samajh</a></footer>
+  </main>
+  <script type="module" src="account.bundle.js"></script>
+</body></html>

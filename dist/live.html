@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6248a7">
+  <title>Real tools · Samajh</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="live.css">
+</head>
+<body class="live-body">
+  <a class="skip-link" href="#main">Skip to tools</a>
+  <header class="live-header">
+    <a href="index.html#home" class="brand"><img src="assets/favicon.svg" alt="">samajh<span class="dot">.</span></a>
+    <nav aria-label="Main navigation"><a href="index.html#library">Safe practice</a><a href="account.html">My cloud learning</a></nav>
+  </header>
+  <main id="main" class="live-main">
+    <section class="live-hero"><div><span class="eyebrow">REAL TOOLS · YOUR CHOICE</span><h1>Ready for the real thing?</h1><p>Work with your own files and open your actual meeting or service. Nothing is sent automatically.</p><a class="btn btn-secondary" href="index.html#library">Practise first, if you like</a></div><div class="live-hero-emblem" aria-hidden="true">✓<small>One step<br>at a time.</small></div></section>
+    <div class="live-notice"><strong>You're in control.</strong> Samajh will never join a call, send a file, or change another service without your action. The original file is kept when you download a renamed copy.</div>
+    <section class="live-grid" aria-label="Real-world tools">
+      <article class="live-card" id="meeting"><span class="live-label">01 · ACTUAL MEETING</span><h2>Open my Zoom or Google Meet</h2><p>Paste the meeting invitation from someone you trust. We will open the actual meeting service in a new tab; its own interface handles joining.</p><form id="meeting-form"><label for="meeting-url">Meeting invitation link</label><input class="text-field" id="meeting-url" type="url" required placeholder="https://…" autocomplete="off"><button class="btn btn-primary" type="submit">Open meeting link</button></form><p class="micro">A link opening is not a successful meeting join. Check camera and microphone in the service's preview.</p><p id="meeting-status" class="live-status" role="status" aria-live="polite"></p><div class="live-links"><a href="https://support.zoom.com/" target="_blank" rel="noopener noreferrer">Zoom help</a><a href="https://support.google.com/meet/" target="_blank" rel="noopener noreferrer">Google Meet help</a></div></article>
+      <article class="live-card" id="rename"><span class="live-label">02 · REAL FILE</span><h2>Rename a file copy</h2><p>Choose a real file on your device. Enter a new base name and download a copy with the same file extension and contents. The original is not modified.</p><form id="rename-form"><label for="rename-file">Choose a file</label><input class="text-field" id="rename-file" type="file" required><label for="rename-name">New name (without extension)</label><input class="text-field" id="rename-name" type="text" required maxlength="100" placeholder="My document"><p id="extension-note" class="micro"></p><button class="btn btn-primary" type="submit">Download renamed copy</button></form><p id="rename-status" class="live-status" role="status" aria-live="polite"></p></article>
+      <article class="live-card" id="share-file"><span class="live-label">03 · REAL FILE</span><h2>Share a PDF with someone</h2><p>Choose your own PDF, then use your device's sharing menu if it supports file sharing. Otherwise, download or locate the original and attach it in your messaging app.</p><label for="pdf-file">Choose a PDF</label><input class="text-field" id="pdf-file" type="file" accept="application/pdf,.pdf"><button id="share-pdf" class="btn btn-primary" type="button" disabled>Open sharing menu</button><p class="micro">Only a user-selected file goes to the device's share menu. Samajh does not upload it or verify delivery.</p><p id="share-status" class="live-status" role="status" aria-live="polite"></p></article>
+      <article class="live-card" id="link"><span class="live-label">04 · REAL LINK</span><h2>Copy a link</h2><p>Paste an HTTPS link that you intend to share. Copying does not grant access. Use your service's sharing settings to choose the correct recipient.</p><form id="copy-form"><label for="copy-url">Link to copy</label><input id="copy-url" class="text-field" type="url" required placeholder="https://…" autocomplete="off"><button type="submit" class="btn btn-primary">Copy link</button></form><p id="copy-status" class="live-status" role="status" aria-live="polite"></p><a href="https://support.google.com/drive/answer/2494822" rel="noopener noreferrer" target="_blank">Google Drive sharing instructions</a></article>
+    </section>
+    <section class="live-guides"><div class="section-head"><div><span class="eyebrow">WORK IN THE REAL APP</span><h2>Guidance for the next step</h2></div></div><p>These tools require controls inside the actual service. Samajh links to official guidance; it does not pretend to operate those controls.</p><div class="live-guide-grid"><article><h3>Microphone and camera</h3><p>Check mute, camera, device permissions and the pre-join preview in the actual meeting service.</p><a href="https://support.zoom.com/" target="_blank" rel="noopener noreferrer">Zoom</a> · <a href="https://support.google.com/meet/" target="_blank" rel="noopener noreferrer">Meet</a></article><article><h3>Screen sharing and blur</h3><p>Use the meeting app's Share or Effects controls. Select only what you intend to show and stop sharing when finished.</p><a href="https://support.zoom.com/" target="_blank" rel="noopener noreferrer">Zoom</a> · <a href="https://support.google.com/meet/" target="_blank" rel="noopener noreferrer">Meet</a></article><article><h3>Private access and forms</h3><p>Use the original service to restrict access, confirm the recipient or submit a real form. Samajh cannot validate an external site's receipt.</p><a href="https://support.google.com/drive/" target="_blank" rel="noopener noreferrer">Drive help</a> · <a href="https://support.google.com/docs/" target="_blank" rel="noopener noreferrer">Forms help</a></article></div></section>
+    <footer class="live-footer">Small steps. Real confidence. <a href="index.html#home">Return to Samajh</a></footer>
+  </main>
+  <script type="module" src="live.js"></script>
+</body>
+</html>

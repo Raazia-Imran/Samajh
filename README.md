@@ -1,86 +1,104 @@
-# Samajh
+# Samajh · A little help. A lot more confidence.
 
-**A little help. A lot more confidence.**
+**Learn everyday technology at your own pace, then take the next real step.**
 
-An accessible, mobile-friendly web learning companion for everyday digital tasks. Built for Build4Better on 31 October 2026. People can be experts in their own lives and professions while unfamiliar with a particular digital task. Samajh welcomes parents, students, and professionals without assumptions about their ability.
+[![Stage](https://img.shields.io/badge/stage-production%20foundation-7353ac)](docs/PRODUCTION_READINESS.md)
+[![Frontend](https://img.shields.io/badge/frontend-HTML%20%2F%20JavaScript%20%2F%20CSS-65539a)](dist/)
+[![Database](https://img.shields.io/badge/database-Supabase%20PostgreSQL-357a59)](db/)
+
+Samajh started at Build4Better on 31 October 2026 as an accessible digital-learning companion. It is for adults, parents, students, and professionals who want help with unfamiliar technology without being judged. The product now separates **real tools** from **safe practice**. This is a production foundation, not yet a public launch release.
+
+## Choose your space
+
+| Space | What you can do |
+|---|---|
+| **Real tools** | Open genuine Zoom/Google Meet invitations in the actual service; download a renamed copy of your file; request your device's PDF sharing menu; copy an HTTPS link. |
+| **Safe practice** | Eight clearly labelled fictional exercises, hints, visual guides, and optional browser-local history. |
+| **Cloud learning** | Request email sign-in, explicitly import saved device observations, view or delete your own PostgreSQL records. Email delivery and authenticated testing remain release gates. |
+| **Helper guides** | Select a supported practice template and optionally share a reassuring note via a learner link. |
+
+**A meeting link is not an embedded meeting.** Samajh does not claim to join, mute, screen-share, blur, submit external forms or change another service's document permissions. Those controls remain inside their actual services. See [Production readiness](docs/PRODUCTION_READINESS.md).
 
 ## Run locally
 
-No installation or API key is required for the application.
+Requirements: Git, Node.js 20+ (LTS recommended), npm, Python 3, and a modern browser.
 
 ```bash
-# Requires Python 3
-python3 -m http.server 3000 --directory dist
-# Open http://localhost:3000
+git clone https://github.com/Raazia-Imran/Samajh.git
+cd Samajh
+git switch production-foundation
+npm ci
+npm run build
 ```
 
-Alternatively, `npm start` runs the same command. Do not open `index.html` directly as a file: the app uses ES modules.
+On **Windows**:
 
-## Implemented
+```bat
+py -m http.server 3000 --directory dist
+```
 
-- A skippable illustrated welcome and deliberately gentle motion.
-- Searchable goals, topic filters, honest unsupported-query fallback.
-- Eight working interactive simulations: microphone/permission, one-window screen sharing, background blur, PDF export and attachment, restricted sharing, form validation, quiet meeting entry, and file versus link understanding.
-- Guided practice followed by a changed-view attempt. The microphone attempt additionally changes the underlying cause from mute alone to permission plus mute.
-- Contextual feedback and a cause-aware pure state engine.
-- A 12-second captioned introduction plus eight silent captioned visual step-guide videos.
-- User-triggered English browser speech, visual/text fallbacks, hints, and replayable steps.
-- Helper-selected task with reviewed instructional rules and an optional personal note. URL-based learner links include the note; they have no server persistence.
-- Session learning history, optional browser-local saving, download summary, and history deletion.
-- Keyboard operation, dialog focus containment, reduced-motion support, text enlargement, responsive mobile navigation, and no mandatory account.
-- English plus Roman Urdu task titles and selected navigation. Full explanations currently remain English; this is explicitly disclosed.
+On **Linux/macOS**: `npm start`.
 
-## What is simulated
+Open [http://localhost:3000](http://localhost:3000). Real Tools: `/live.html`; cloud account: `/account.html`. Do not double-click HTML. `npm run build` generates `dist/account.bundle.js`; rebuild after changing account source or configuration. Stop the server with Ctrl+C. If the port is busy, choose another and configure the corresponding auth redirect before signing in.
 
-Every call, permission, device setting, message, recipient, document, form, and export flow is fictional. The prototype never accesses a camera, microphone, contacts, real files, or banking account. A sample PDF within the simulation is not a real exported document. The optional progress download is a real JSON summary.
-
-Real Zoom, Meet, Canva, operating systems, host restrictions, and device versions vary. Official Zoom and Google Meet support links are provided. Samajh has no live app integration, arbitrary screen capture, remote control, backend, authentication, or live AI inference. The visual step-guide videos are authored illustrations, not footage of real apps.
+For an existing clone, inspect `git status`, preserve changes, and use `git fetch origin` then `git switch production-foundation`. The original prototype is preserved at `abb2c2e9050b389f488e477a0a4b1ca6c579a060`.
 
 ## Architecture
 
-- `dist/index.html`: semantic application entry.
-- `dist/style.css`: responsive design, locally hosted fonts, motion and accessibility preferences.
-- `dist/app.js`: navigation, screens, teaching flow, helper links, accessible dialogs, progress and browser speech.
-- `dist/engine.js`: task catalog, goal search, pure state transitions, completion conditions.
-- `dist/assets/`: original SVG brand, authored videos/posters/captions, local open-license fonts.
-- `tests/engine.test.mjs`: meaningful rules and regression tests.
-- `tools/`: reproducible original instructional media scripts. Pillow and FFmpeg are only needed to regenerate media, not to run the app.
-- `.openai/hosting.json`: private Sites deployment configuration. No secrets.
+```mermaid
+flowchart TD
+  U[Learner browser] --> P[Safe practice engine]
+  U --> R[Real tools]
+  U --> A[Optional cloud account]
+  P --> L[Optional localStorage]
+  R --> O[Device or official service]
+  L -->|Explicit import| A
+  A --> S[Supabase Auth and PostgreSQL]
+```
 
-## Validation
+| Path | Responsibility |
+|---|---|
+| `dist/app.js`, `dist/style.css`, `dist/engine.js` | Original interface and deterministic practice rules. |
+| `dist/live.html`, `dist/live.js`, `dist/live-utils.js`, `dist/live.css` | Real browser actions, service handoff, input validation and responsive UI. |
+| `dist/account.html`, `src/account.js`, `src/cloud-records.js` | Optional account, explicit import, cloud-history view and deletion. |
+| `src/public-config.js` | Hosted API URL and public browser key only. Never place secrets here. |
+| `db/initial_learning_attempts.sql` | PostgreSQL schema, grants and row-level policies. |
+| `dist/assets/`, `tools/` | Original media, fonts, media-generation tools. |
+| `tests/` | Practice regression, real-tool input validation and cloud import validation. |
+| `docs/QA.md`, `docs/TEAM_GUIDE.md` | Historical prototype evidence, not v2 validation. |
+
+### Where is the database?
+
+The original app had no database: progress was in memory or browser `localStorage`. The dedicated **Samajh** Supabase project was provisioned on 24 November 2026 in the `raaziaimran` organization, `ap-south-1`, with a $0/month creation quote. Manage it in [Supabase Dashboard](https://supabase.com/dashboard/project/xkqsuhpezhxwyqfwijjn). API: `https://xkqsuhpezhxwyqfwijjn.supabase.co`. Free-plan capacity and availability must be monitored.
+
+`public.learning_attempts` stores owner-linked task ID, transfer flag, hints and timestamps. Supabase Auth manages identities. The browser uses a publishable key; grants and row-level security restrict records to their authenticated owner. No file, meeting invitation, helper note, message, microphone or camera media is saved. Device history is separate until explicit import; matching imported observations are deduplicated. Observations do not certify proficiency.
+
+For a separate development database, provision a separate project, apply the checked-in schema once, change the public config and rebuild. Never apply it to an unrelated project. Configure exact sign-in redirects and production email delivery; see [passwordless auth](https://supabase.com/docs/guides/auth/auth-email-passwordless) and [SMTP setup](https://supabase.com/docs/guides/auth/auth-smtp).
+
+## Verify
 
 ```bash
 npm run check
 npm test
+npm run build
 ```
 
-Tests cover cause separation, sharing boundaries, stopping a share, file/link distinctions, confirmation rules, validation with preserved input, quiet entry, and natural-language catalog matching. Browser QA is described in `docs/QA.md`.
+Automated checks do not verify native sharing, live meeting attendance, email delivery, end-to-end account isolation, or physical-device usability. See the release gate in [Production readiness](docs/PRODUCTION_READINESS.md).
 
-## Privacy
+## Deploy and launch
 
-No advertising, analytics scripts, or personal-account data collection. Progress is kept in memory unless the learner enables local saving. Clear history removes saved attempts. Browser speech may be processed by the device's browser speech service. Hosting infrastructure may keep technical logs. Fonts and videos are local.
+For independent static hosting: `npm ci && npm run build` as build command, `dist` as publish directory. Serve HTTPS. The included `_headers` file applies only on compatible hosts; verify equivalent headers on the selected platform. Configure the exact final auth Site URL and account callback URL (`https://your-domain/account.html`) plus localhost test URL. Configure production email delivery and test two consenting accounts before public release. No deployment is claimed.
 
-Helper links put the optional first name and note in the URL fragment. Anyone with the link and site access can read that content. Do not put confidential details into notes. All inserted text is escaped and fields are length-limited.
+## Privacy and accessibility
 
-`dist/_headers` supplies suggested security headers for compatible static hosts. Hosting platforms differ; do not assume those headers are applied by every host. No security certification is claimed.
+- Practice is optional and labelled. Direct third-party integrations require supported APIs, consent and verification.
+- Renaming downloads a copy; original stays intact. Native sharing is user-controlled and is not proof of delivery.
+- No mandatory account, camera, microphone or contacts access. The learner explicitly opts into saving; cloud import and deletion are separate from device history.
+- Keep large controls, labels, reduced motion, keyboard access and respectful instructions. Full Urdu/RTL and actual learner accessibility testing remain open.
+- Never claim global novelty, verified learning effectiveness, accessibility certification or readiness without evidence.
 
-## Team and AI disclosure
+## Credits
 
-Project owner: Raazia-Imran (GitHub repository owner). Team member identities were not supplied to the implementation agent; the submitting team should add its actual registered members before submission. Do not invent team identities.
+Repository owner: `Raazia-Imran`. Actual registered team members remain to be confirmed. ChatGPT/Codex assisted original design, implementation, documentation and checks. DM Sans and Manrope have included SIL Open Font Licenses. Original media uses Pillow and FFmpeg. Earlier concept references include [Synapse](https://arxiv.org/abs/2209.09596). Prior submission and approval status are unverified.
 
-OpenAI ChatGPT/Codex assisted ideation, original coding, design, media generation scripts, testing, and documentation. The team remains responsible for understanding and explaining the implementation. This app makes no claim of proven efficacy or global novelty. No participant interview findings or user-study metrics are fabricated.
-
-## Third-party credits
-
-- DM Sans and Manrope: Google Fonts, SIL Open Font License; licenses included in `dist/assets/fonts/`.
-- Browser APIs: Web Speech API, native video, localStorage, URL and clipboard APIs.
-- Python Pillow and FFmpeg: development-only media generation tools.
-- Conceptual research precedent: [Synapse](https://arxiv.org/abs/2209.09596). No source code from existing training products was copied.
-
-## Submission version
-
-Identify the final submitted commit with `git rev-parse HEAD` at the actual submission cutoff. The team must record that exact identifier in its submission and stop modifying that submitted version after the deadline. This repository does not claim a submission has already been made.
-
-## Deployment
-
-Deploy the contents of `dist/` on any static host; no build command is needed. The Sites version is owner-private by default. GitHub source synchronization depends on the connected GitHub integration having Contents write access.
+**Next milestone:** a staging release that passes hosted authentication, real-device workflows, cross-user isolation and an actual learner pilot.
