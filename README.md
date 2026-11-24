@@ -1,5 +1,7 @@
 # Samajh · A little help. A lot more confidence.
 
+**Current main release:** [Samajh frontend](https://samajh-eta.vercel.app/) · [Launch and handoff guide](documents/LAUNCH.md). The rest of this README describes the November 24 foundation build and its optional cloud account module. The current public entry points are `index.html` and `live.html`; they use real browser tools and do not expose the earlier simulated exercises.
+
 **Learn everyday technology at your own pace, then take the next real step.**
 
 [![Stage](https://img.shields.io/badge/stage-production%20foundation-7353ac)](docs/PRODUCTION_READINESS.md)
