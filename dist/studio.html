@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Practice everyday technology, create private drafts, and explore reviewed community guides.">
+  <title>Practice Studio · Samajh</title><link rel="icon" href="assets/samajh-mark.webp" type="image/webp">
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="live.css"><link rel="stylesheet" href="workspace.css"><link rel="stylesheet" href="studio.css">
+</head>
+<body class="sam-workspace">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="studio-header"><a class="sam-brand" href="index.html" aria-label="Samajh home"><img src="assets/samajh-mark.webp" alt="" width="45" height="45"><span><b lang="ur" dir="rtl">سمجھ</b><small>Samajh</small></span></a><nav aria-label="Studio navigation"><a href="index.html">Dashboard</a><a href="privacy.html">Privacy settings</a></nav></header>
+  <main class="studio-main" id="main">
+    <div class="studio-hero"><div><h1>Practice Studio</h1><p>Choose an everyday task and try it on your own device. You can also write a practice to use yourself or contribute for review.</p></div><a class="btn btn-primary" href="#builder">Create a practice</a></div>
+    <section aria-labelledby="practice-heading"><div class="sam-section-heading"><h2 id="practice-heading">Explore practices</h2><label for="pack-filter">Practice pack <select id="pack-filter" class="text-field"><option value="all">All packs</option></select></label></div><div id="curated" class="studio-grid"></div></section>
+    <section aria-labelledby="community-heading"><h2 id="community-heading">Community library</h2><p id="community-message" role="status">Loading reviewed practices…</p><div id="community" class="studio-grid"></div></section>
+    <section class="studio-builder" id="builder" aria-labelledby="builder-heading"><div class="sam-section-heading"><h2 id="builder-heading">Create a practice</h2></div><p>Keep instructions short. Use plain text and leave out private details, passwords and links.</p>
+      <form id="practice-form" class="sam-card studio-form">
+        <label>Pack <select id="draft-pack" class="text-field"></select></label>
+        <label>Title <input id="draft-title" class="text-field" minlength="5" maxlength="80" required></label>
+        <label>Goal <textarea id="draft-goal" class="text-field" minlength="8" maxlength="240" rows="2" required></textarea></label>
+        <fieldset><legend>Steps</legend><div id="draft-steps"></div><button id="add-step" class="btn btn-secondary" type="button">Add a step</button></fieldset>
+        <label>How will the learner check their result? <textarea id="draft-check" class="text-field" rows="2" minlength="8" maxlength="240" required></textarea></label>
+        <label>Contributor name <small>(optional, shown only if published)</small> <input id="draft-credit" class="text-field" maxlength="40"></label>
+        <div class="sam-form-actions"><button class="btn btn-primary" type="submit">Save for myself</button><button id="submit-practice" class="btn btn-secondary" type="button" disabled>Submit for review</button><button id="new-draft" class="btn btn-secondary" type="button">New draft</button></div>
+        <p id="contribution-hint"><a href="#contributor">Sign in to submit for community review.</a></p><p id="draft-status" class="studio-status" role="status"></p>
+      </form>
+      <h3>My private drafts</h3><p>Saved drafts are stored on this browser until you delete them or clear site data.</p><div id="draft-list" class="studio-grid"></div>
+    </section>
+    <section class="sam-card studio-account" aria-labelledby="contributor-heading" id="contributor"><h2 id="contributor-heading">Contributor sign-in</h2><p id="studio-auth-status" role="status">Checking sign-in…</p><form id="studio-sign-in" hidden><label>Email <input id="studio-email" class="text-field" type="email" maxlength="254" required autocomplete="email"></label><button class="btn btn-primary">Email me a sign-in link</button></form><button class="btn btn-secondary" id="studio-sign-out" hidden>Sign out</button><div id="my-submissions" hidden><h3>My submissions</h3><ul id="submission-list"></ul></div></section>
+    <section class="sam-card" id="reviewer" aria-labelledby="reviewer-heading" hidden><h2 id="reviewer-heading">Review queue</h2><p>Check clarity, duplicate content, personal details, and safe instructions before publishing. Public cards display only the optional credit.</p><p id="review-status" role="status"></p><div id="review-list" class="studio-grid"></div><h3>Reported practices</h3><div id="report-list" class="studio-grid"></div></section>
+    <footer class="sam-footer"><a href="privacy.html">Privacy &amp; browser storage</a></footer>
+  </main>
+  <noscript>Enable JavaScript to use Practice Studio.</noscript><script type="module" src="studio.bundle.js"></script>
+</body>
+</html>

@@ -178,7 +178,9 @@ function selectLanguage(language) {
 window.addEventListener('hashchange', () => route());
 window.addEventListener('samajh:activity', event => {
   if (!tasks.some(task => task.id === event.detail)) return;
-  activity = [{task:event.detail,at:Date.now()}, ...activity].slice(0,60);
+  const at = Date.now();
+  try { sessionStorage.setItem(`samajh-tool-${event.detail}`,String(at)); } catch { /* Tool still works. */ }
+  activity = [{task:event.detail,at}, ...activity].slice(0,60);
   persistActivity(); renderActivity();
 });
 $('task-search-form').addEventListener('submit', event => {

@@ -6,3 +6,4 @@ node_modules/
 !.env.example
 .openai/.git-credentials*
 dist/account.bundle.js
+dist/studio.bundle.js

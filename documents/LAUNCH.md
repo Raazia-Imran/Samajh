@@ -15,6 +15,8 @@ The public frontend runs its tools in the browser. Supabase is the deployed mana
 
 ## Public tool scope
 
+Practice Studio adds curated packs, private browser drafts and a reviewed community catalog. See [the review and launch runbook](PRACTICE_STUDIO.md) for the Supabase schema, email and reviewer setup, and privacy controls.
+
 The bilingual workspace offers English, Urdu (right-to-left), and Roman Urdu. The English task field matches supported tools locally by keywords. Tool instructions remain in English. The profile saves a display name and preferences in this browser. Activity records the tool and time only, with optional browser persistence. Help Someone shares a direct tool link without profile or activity data. The speech-bubble mark and exact Urdu name are used in the dashboard, language dialog, and favicon.
 
 - Microphone check requests browser permission, then displays a live, local signal meter. Stop and page exit release the device. Clips are never recorded or uploaded.

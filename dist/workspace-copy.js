@@ -57,6 +57,10 @@ const copy = {
   results: ['Tools that match your request', 'آپ کی درخواست سے متعلق ٹولز', 'Aap ki request se milte tools'],
   noResults: ['No matching tool. Try “screen”, “rename”, or “meeting”.', 'کوئی مناسب ٹول نہیں ملا۔ “screen”، “rename” یا “meeting” لکھیں۔', 'Koi tool nahi mila. “screen”, “rename” ya “meeting” likhein.'],
   openTool: ['Open tool', 'ٹول کھولیں', 'Tool kholein'],
+  studioTitle: ['Practice Studio', 'مشق کی جگہ', 'Mashq ki jagah'],
+  studioIntro: ['Try a step-by-step activity, or write your own private practice.', 'قدم بہ قدم مشق کریں یا اپنی ذاتی مشق بنائیں۔', 'Qadam ba qadam mashq karein ya apni zaati practice banayen.'],
+  studioOpen: ['Open Practice Studio', 'مشق کی جگہ کھولیں', 'Mashq ki jagah kholein'],
+  privacyLink: ['Privacy settings', 'رازداری کی ترتیبات', 'Privacy settings'],
 };
 
 export const languages = { en: ['en', 0], ur: ['ur', 1], roman: ['ur-Latn', 2] };
