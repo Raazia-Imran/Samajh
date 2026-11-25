@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from './public-config.js';
+import { CONTRIBUTIONS_OPEN } from './studio-config.js';
 import { curated, packs, draftKey, validatePractice } from '../dist/practice-data.js';
 
 const $ = id => document.getElementById(id);
@@ -69,7 +70,7 @@ function practiceCard(item, source) {
     const credit = item.credit ? `${item.credit} · ` : '';
     details.append(el('p',`${credit}Reviewed ${formatDate(item.reviewed_at)}`));
     if (user) details.append(reportControls(item));
-    else {
+    else if (CONTRIBUTIONS_OPEN) {
       const signIn = el('a','Sign in to report an issue'); signIn.href = '#contributor'; details.append(signIn);
     }
   }
@@ -253,7 +254,11 @@ $('submit-practice').addEventListener('click', async () => {
 
 openDraft(); renderDrafts(); renderLibrary();
 if (SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY) {
-  client = createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{flowType:'pkce',storage:sessionStorageOnly,storageKey:'samajh-studio-auth'}});
+  client = createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{flowType:'pkce',storage:sessionStorageOnly,storageKey:'samajh-studio-auth',persistSession:CONTRIBUTIONS_OPEN,detectSessionInUrl:CONTRIBUTIONS_OPEN}});
+  loadCommunity();
+}
+
+if (client && CONTRIBUTIONS_OPEN) {
   client.auth.onAuthStateChange((_event,session) => {
     user = session?.user; const revision = ++authRevision;
     reviewer = false; $('reviewer').hidden = true;
@@ -281,8 +286,8 @@ if (SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY) {
     try { const {error} = await client.auth.signOut({scope:'local'}); if (error) throw error; }
     catch { status('studio-auth-status','Could not sign out. Close this tab on a shared device.'); }
   });
-  loadCommunity();
 } else {
-  status('studio-auth-status','Contributor sign-in is not configured.');
-  status('community-message','The community library is not configured.');
+  status('contribution-hint','Community submissions are opening after contributor sign-in is ready.');
+  status('studio-auth-status','Contributor sign-in is paused while we set up the launch. You can use the library and save private drafts now.');
+  if (!client) status('community-message','The community library is not configured.');
 }

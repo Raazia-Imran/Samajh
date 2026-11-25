@@ -5,10 +5,11 @@ The studio includes eight curated practices, four color-coded packs, and a priva
 ## Publish and maintain submissions
 
 1. Apply the checked-in `practice_studio` Supabase migration on the Samajh project. Existing cloud learning records are separate.
-2. Configure a production email sender in Supabase Auth. Set the Site URL to the actual Samajh HTTPS origin and add the exact `/studio.html` redirect. Keep preview URLs separate and narrowly scoped. Test an external mailbox and the PKCE callback with a real authorized account. The Studio session is scoped to the current tab; complete sign-in in that same tab.
+2. Configure a production email sender in Supabase Auth. Set the Site URL to the actual Samajh HTTPS origin and add the exact `/studio.html` redirect. Keep preview URLs separate and narrowly scoped. Enable `CONTRIBUTIONS_OPEN` in `src/studio-config.js` on the test build. Test an external mailbox and the PKCE callback with a real authorized account. The Studio session is scoped to the current tab; complete sign-in in that same tab.
 3. After the intended reviewer has a confirmed Supabase Auth account, add that **verified account UUID** to `public.practice_reviewers` through the authorized Supabase SQL Editor. Never grant reviewer access based on a display name or an email typed into the site. Refresh the Studio after assigning or removing membership.
 4. Sign in with two different contributor accounts. Verify that an author can submit and see their own pending row, other users cannot read it, and only a reviewer can publish. In Review Queue, read the whole practice before publishing. Check accuracy, clarity, safety, duplicate content, and personal details. Decline submissions that fail review. Public cards show approved text, optional credit, and review date.
 5. Check Reported Practices regularly. Archive unsafe or badly outdated practices. Dismiss reviewed reports that do not need action. A browser report requires sign-in and an account can submit one outstanding report per practice.
+6. Keep the public build in guest-first mode (`CONTRIBUTIONS_OPEN = false`) until those checks pass. Then add the private support contact to the privacy page, set the flag to true, rebuild, and verify the production callback. The flag controls what guests see; it is separate from database authorization.
 
 ## Security and privacy
 
