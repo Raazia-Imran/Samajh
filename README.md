@@ -1,6 +1,6 @@
 # Samajh · A little help. A lot more confidence.
 
-**Current main release:** [Samajh frontend](https://samajh-eta.vercel.app/) · [Launch and handoff guide](documents/LAUNCH.md). The rest of this README describes the November 24 foundation build and its optional cloud account module. The current public entry points are `index.html` and `live.html`; they use real browser tools and do not expose the earlier simulated exercises.
+**Current main release:** [Samajh frontend](https://samajh-eta.vercel.app/) · [Launch and handoff guide](documents/LAUNCH.md). The public dashboard includes the bilingual سمجھ / Samajh wordmark, English task search, real tool windows, and browser-local profile and activity. Old `live.html` links open the corresponding dashboard tool. The original prototype and optional cloud-account work are described below for historical context.
 
 **Learn everyday technology at your own pace, then take the next real step.**
 

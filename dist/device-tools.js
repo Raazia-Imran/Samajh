@@ -3,7 +3,7 @@ function setStatus(element, text, error = false) {
   element.dataset.error = String(error);
 }
 
-function attachCapture({ start, stop, status, capture, show, hide, unavailable, active }) {
+function attachCapture({ task, start, stop, status, capture, show, hide, unavailable, active }) {
   let stream;
   let operation = 0;
 
@@ -42,12 +42,17 @@ function attachCapture({ start, stop, status, capture, show, hide, unavailable, 
         }, { once: true });
       }
       await show(selected, () => operation === request);
-      if (operation === request) setStatus(status, active);
+      if (operation === request) {
+        setStatus(status, active);
+        window.dispatchEvent(new CustomEvent('samajh:activity', { detail: task }));
+      }
     } catch {
       if (operation === request) finish('Could not start. Check permissions and device availability, then try again.', true);
     }
   });
-  window.addEventListener('pagehide', () => finish('Stopped.'));
+  const stopIfActive = () => { if (!stop.disabled) finish('Stopped.'); };
+  window.addEventListener('pagehide', stopIfActive);
+  window.addEventListener('samajh:leave-tool', stopIfActive);
 }
 
 const byId = id => document.getElementById(id);
@@ -59,6 +64,7 @@ let context;
 let frame;
 
 attachCapture({
+  task: 'device',
   start: byId('mic-start'), stop: byId('mic-stop'), status: byId('mic-status'),
   capture: devices?.getUserMedia && AudioEngine ? () => devices.getUserMedia({ audio: true, video: false }) : null,
   unavailable: 'Microphone checks are unavailable in this browser.',
@@ -91,6 +97,7 @@ attachCapture({
 
 const video = byId('screen-video');
 attachCapture({
+  task: 'screen-preview',
   start: byId('screen-start'), stop: byId('screen-stop'), status: byId('screen-status'),
   capture: devices?.getDisplayMedia ? () => devices.getDisplayMedia({ video: true, audio: false }) : null,
   unavailable: 'Screen preview is unavailable in this browser. Try a supported desktop browser.',

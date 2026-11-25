@@ -5,7 +5,7 @@
 | Service | Link and role |
 | --- | --- |
 | Public frontend | [Samajh on Vercel](https://samajh-eta.vercel.app/) |
-| Tools page | [Tools for everyday tech](https://samajh-eta.vercel.app/live.html) |
+| Tools page | [Tools for everyday tech](https://samajh-eta.vercel.app/#tools) |
 | Deployment dashboard | [Vercel project](https://vercel.com/raazias-projects-142c0b42/samajh) |
 | Database and authentication | [Supabase project](https://supabase.com/dashboard/project/xkqsuhpezhxwyqfwijjn) |
 | Backend API origin | `https://xkqsuhpezhxwyqfwijjn.supabase.co` |
@@ -14,6 +14,8 @@
 The public frontend runs its tools in the browser. Supabase is the deployed managed backend and PostgreSQL database for the separate cloud-learning module. There is no separate Express or Django service to deploy. Database access is governed by row ownership policies in `db/initial_learning_attempts.sql`. No credentials belong in the handoff.
 
 ## Public tool scope
+
+The bilingual workspace offers English, Urdu (right-to-left), and Roman Urdu. The English task field matches supported tools locally by keywords. Tool instructions remain in English. The profile saves a display name and preferences in this browser. Activity records the tool and time only, with optional browser persistence. Help Someone shares a direct tool link without profile or activity data. The speech-bubble mark and exact Urdu name are used in the dashboard, language dialog, and favicon.
 
 - Microphone check requests browser permission, then displays a live, local signal meter. Stop and page exit release the device. Clips are never recorded or uploaded.
 - Screen/window preview uses the browser's picker and shows the selected source locally. Stop, the browser's stop control, and page exit release capture. Availability depends on the browser and device.

@@ -3,29 +3,128 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Learn everyday technology by using your own files, device, and meeting links.">
-  <meta name="theme-color" content="#1b2835">
-  <title>Samajh · Everyday tech, at your pace</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Build digital confidence with real everyday tools in English, Urdu and Roman Urdu.">
+  <meta name="theme-color" content="#f8f6fd">
+  <title>Samajh · A little help. A lot more confidence.</title>
+  <link rel="icon" href="assets/samajh-mark.webp" type="image/webp">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="live.css">
   <link rel="stylesheet" href="premium.css">
+  <link rel="stylesheet" href="workspace.css">
 </head>
-<body class="live-body premium">
-  <a href="#main" class="skip-link">Skip to content</a>
-  <header class="live-header"><a href="index.html" class="brand"><img src="assets/favicon.svg" alt="">samajh<span class="dot">.</span></a><nav aria-label="Main navigation"><a href="live.html">All tools</a></nav></header>
-  <main class="live-main" id="main">
-    <section class="launch-hero">
-      <div class="launch-copy"><p class="launch-kicker">LEARN BY DOING</p><h1>Everyday tech,<br>at your pace.</h1><p>Test what your microphone hears, use your own files, or open a meeting invitation. Start with the task you need today.</p><a class="btn btn-primary" href="live.html">Explore tools</a></div>
-      <div class="launch-scene" aria-hidden="true"><span class="scene-halo"></span><span class="scene-orbit orbit-one"></span><span class="scene-orbit orbit-two"></span><span class="scene-panel scene-back"></span><span class="scene-panel scene-mid"></span><span class="scene-panel scene-front"><span></span><i></i><i></i><i></i></span><span class="scene-bead bead-one"></span><span class="scene-bead bead-two"></span></div>
-    </section>
-    <section class="home-tasks" aria-labelledby="home-tools"><h2 id="home-tools">What would you like to do?</h2><div class="home-grid">
-      <a href="live.html#device" class="home-tile"><span aria-hidden="true">◉</span><h3>Check my microphone</h3><p>See if your device picks up your voice.</p></a>
-      <a href="live.html#screen-preview" class="home-tile"><span aria-hidden="true">▣</span><h3>Preview my screen</h3><p>Choose one screen, window, or tab.</p></a>
-      <a href="live.html#meeting" class="home-tile"><span aria-hidden="true">↗</span><h3>Open a meeting</h3><p>Use a Zoom or Google Meet invitation.</p></a>
-      <a href="live.html#rename" class="home-tile"><span aria-hidden="true">▤</span><h3>Rename a file</h3><p>Download a copy with your chosen name.</p></a>
-    </div></section>
-    <footer class="live-footer"><span>Files and device previews are processed on your device.</span><a href="live.html#privacy">How your data is handled</a></footer>
-  </main>
+<body class="sam-workspace">
+  <a href="#main" class="skip-link" data-copy="skip">Skip to content</a>
+  <div class="sam-layout">
+    <aside class="sam-sidebar">
+      <a class="sam-brand" href="#home" aria-label="Samajh home">
+        <img src="assets/samajh-mark.webp" alt="" width="45" height="45">
+        <span><b lang="ur" dir="rtl">سمجھ</b><small lang="en">Samajh</small></span>
+      </a>
+      <p class="sam-sidebar-note" data-copy="tagline">A little help. A lot more confidence.</p>
+      <nav class="sam-nav" aria-label="Workspace" data-nav-menu></nav>
+      <div class="sam-side-help">
+        <span class="sam-help-mark" aria-hidden="true">✦</span>
+        <p data-copy="sideHelp">Choose a real task and take it one step at a time.</p>
+        <a href="#help" data-copy="getHelp">Help someone</a>
+      </div>
+    </aside>
+    <div class="sam-body">
+      <header class="sam-topbar">
+        <a class="sam-brand sam-mobile-brand" href="#home" aria-label="Samajh home"><img src="assets/samajh-mark.webp" alt="" width="40" height="40"><span><b lang="ur" dir="rtl">سمجھ</b><small lang="en">Samajh</small></span></a>
+        <div class="sam-crumb"><span data-copy="space">Your workspace</span><span aria-hidden="true"> / </span><strong id="breadcrumb">Home</strong></div>
+        <div class="sam-toolbar">
+          <label for="language-picker" class="sam-visually-hidden" data-copy="language">Language</label>
+          <select id="language-picker"><option value="en">English</option><option value="ur">اردو</option><option value="roman">Roman Urdu</option></select>
+          <a href="#profile" class="sam-user" aria-label="Profile"><span id="user-initial" aria-hidden="true">S</span><strong id="user-name">Profile</strong></a>
+        </div>
+      </header>
+      <main id="main" class="sam-content" tabindex="-1">
+        <section id="home" data-panel="home" aria-labelledby="home-title">
+          <div class="sam-hero">
+            <div class="sam-hero-copy">
+              <p class="sam-eyebrow" data-copy="learnByDoing">LEARN BY DOING</p>
+              <h1 id="home-title" tabindex="-1"><span data-copy="heroTitle">Everyday technology.</span><br><span data-copy="heroAccent">At your pace.</span></h1>
+              <p data-copy="heroIntro">Tell us what you want to do. Samajh will help you find the right real tool.</p>
+              <form id="task-search-form" class="sam-search" role="search">
+                <label for="task-search" class="sam-visually-hidden" data-copy="searchLabel">Describe your task in English</label>
+                <input type="search" id="task-search" autocomplete="off" maxlength="160" lang="en" dir="ltr" placeholder="e.g. I want to rename a PDF">
+                <button type="submit" data-copy="findTool">Find a tool</button>
+              </form>
+              <small data-copy="searchHint">Type your request in English. Your dashboard language stays the same.</small>
+            </div>
+            <div class="launch-scene" aria-hidden="true"><span class="scene-halo"></span><span class="scene-orbit orbit-one"></span><span class="scene-orbit orbit-two"></span><span class="scene-panel scene-back"></span><span class="scene-panel scene-mid"></span><span class="scene-panel scene-front"><span></span><i></i><i></i><i></i></span><span class="scene-bead bead-one"></span><span class="scene-bead bead-two"></span></div>
+          </div>
+          <div class="sam-home-grid">
+            <section class="sam-discover" aria-labelledby="discover-title">
+              <div class="sam-section-heading"><h2 id="discover-title" data-copy="discover">Choose a real tool</h2><a href="#tools" data-copy="viewAll">View all tools</a></div>
+              <p id="search-summary" role="status" hidden></p>
+              <div id="tool-cards" class="sam-catalog"></div>
+            </section>
+            <aside class="sam-rail">
+              <section class="sam-card sam-overview"><span class="sam-eyebrow" data-copy="myProgress">MY ACTIVITY</span><h2 id="home-activity-count">0</h2><p data-copy="activityCount">Recorded actions on this browser</p><a href="#activity" data-copy="seeActivity">See my activity</a></section>
+              <section class="sam-card sam-guide"><span aria-hidden="true">✦</span><h2 data-copy="together">A little easier together</h2><p data-copy="shareHint">Share a tool with someone you’re helping.</p><a href="#help" data-copy="getHelp">Help someone</a></section>
+            </aside>
+          </div>
+        </section>
+
+        <section id="tools" data-panel="tools" aria-labelledby="tools-title" hidden>
+          <div class="sam-page-heading"><span class="sam-eyebrow" data-copy="learnByDoing">LEARN BY DOING</span><h1 id="tools-title" tabindex="-1" data-copy="toolsTitle">Tools for everyday tech</h1><p data-copy="toolsIntro">Use your own device, files, and links. Tool instructions are in English.</p></div>
+          <div id="tool-tabs" class="sam-tool-tabs" aria-label="Choose a tool"></div>
+          <div class="live-grid" id="tool-windows" lang="en" dir="ltr">
+      <article class="live-card" id="device"><h2>Check my microphone</h2><p>Allow microphone access, then speak. The meter shows the signal on this device without recording or sending audio.</p><button class="btn btn-primary" id="mic-start" type="button">Start microphone check</button> <button class="btn btn-secondary" id="mic-stop" type="button" disabled>Stop check</button><div class="device-preview" id="mic-preview" hidden><label for="mic-level">Microphone signal</label><meter id="mic-level" min="0" max="100" value="0"></meter></div><p class="live-status" id="mic-status" role="status"></p></article>
+      <article class="live-card" id="screen-preview"><h2>Preview a screen or window</h2><p>Choose a window or tab in your browser’s picker. The preview stays on this page. Close anything private before starting.</p><button class="btn btn-primary" id="screen-start" type="button">Choose screen or window</button> <button class="btn btn-secondary" id="screen-stop" type="button" disabled>Stop preview</button><video class="device-video" id="screen-video" autoplay muted playsinline hidden aria-label="Local display preview"></video><p class="live-status" id="screen-status" role="status"></p></article>
+      <article class="live-card" id="meeting"><h2>Open my Zoom or Google Meet</h2><p>Paste the meeting invitation from someone you trust. We will open the actual meeting service in a new tab; its own interface handles joining.</p><form id="meeting-form"><label for="meeting-url">Meeting invitation link</label><input class="text-field" id="meeting-url" type="url" required placeholder="https://…" autocomplete="off"><button class="btn btn-primary" type="submit">Open meeting link</button></form><p class="micro">A link opening is not a successful meeting join. Check camera and microphone in the service's preview.</p><p id="meeting-status" class="live-status" role="status" aria-live="polite"></p><div class="live-links"><a href="https://support.zoom.com/" target="_blank" rel="noopener noreferrer">Zoom help</a><a href="https://support.google.com/meet/" target="_blank" rel="noopener noreferrer">Google Meet help</a></div></article>
+      <article class="live-card" id="rename"><h2>Rename a file copy</h2><p>Choose a real file on your device. Enter a new base name and download a copy with the same file extension and contents. The original is not modified.</p><form id="rename-form"><label for="rename-file">Choose a file</label><input class="text-field" id="rename-file" type="file" required><label for="rename-name">New name (without extension)</label><input class="text-field" id="rename-name" type="text" required maxlength="100" placeholder="My document"><p id="extension-note" class="micro"></p><button class="btn btn-primary" type="submit">Download renamed copy</button></form><p id="rename-status" class="live-status" role="status" aria-live="polite"></p></article>
+      <article class="live-card" id="share-file"><h2>Share a PDF with someone</h2><p>Choose your own PDF, then use your device's sharing menu if it supports file sharing. Otherwise, download or locate the original and attach it in your messaging app.</p><label for="pdf-file">Choose a PDF</label><input class="text-field" id="pdf-file" type="file" accept="application/pdf,.pdf"><button id="share-pdf" class="btn btn-primary" type="button" disabled>Open sharing menu</button><p class="micro">Only a user-selected file goes to the device's share menu. Samajh does not upload it or verify delivery.</p><p id="share-status" class="live-status" role="status" aria-live="polite"></p></article>
+      <article class="live-card" id="link"><h2>Copy a link</h2><p>Paste an HTTPS link that you intend to share. Copying does not grant access. Use your service's sharing settings to choose the correct recipient.</p><form id="copy-form"><label for="copy-url">Link to copy</label><input id="copy-url" class="text-field" type="url" required placeholder="https://…" autocomplete="off"><button type="submit" class="btn btn-primary">Copy link</button></form><p id="copy-status" class="live-status" role="status" aria-live="polite"></p><a href="https://support.google.com/drive/answer/2494822" rel="noopener noreferrer" target="_blank">Google Drive sharing instructions</a></article>
+    </div>
+          <p class="sam-muted" data-copy="providerNote">Changes inside Zoom, Meet or Drive happen in those apps. Samajh opens or guides you to the right service.</p>
+        </section>
+
+        <section id="activity" data-panel="activity" aria-labelledby="activity-title" hidden>
+          <div class="sam-page-heading"><span class="sam-eyebrow" data-copy="myProgress">MY ACTIVITY</span><h1 id="activity-title" tabindex="-1" data-copy="activityTitle">Look how far you’ve come.</h1><p data-copy="activityIntro">This history records actions you actually took. File names, meeting links, and media stay out of it.</p></div>
+          <div class="sam-card sam-activity"><div class="sam-section-heading"><h2 data-copy="recent">Recent activity</h2><button type="button" id="clear-activity" class="btn btn-secondary" data-copy="clearActivity">Clear activity</button></div><p id="activity-empty" data-copy="emptyActivity">Your activity will appear after you use a real tool.</p><ul id="activity-list"></ul><p id="activity-message" role="status"></p></div>
+        </section>
+
+        <section id="profile" data-panel="profile" aria-labelledby="profile-title" hidden>
+          <div class="sam-page-heading"><span class="sam-eyebrow" data-copy="space">Your workspace</span><h1 id="profile-title" tabindex="-1" data-copy="profileTitle">Your profile</h1><p data-copy="profileIntro">Your name and preferences are saved on this browser.</p></div>
+          <form id="profile-form" class="sam-card sam-profile">
+            <div class="sam-profile-face"><span id="profile-initial" aria-hidden="true">S</span><h2 data-copy="editProfile">Edit profile</h2></div>
+            <label for="display-name" data-copy="nameLabel">Display name</label><input class="text-field" id="display-name" type="text" maxlength="48" autocomplete="nickname" dir="auto">
+            <label for="profile-language" data-copy="language">Language</label><select class="text-field" id="profile-language"><option value="en">English</option><option value="ur">اردو</option><option value="roman">Roman Urdu</option></select>
+            <label class="sam-check"><input id="larger-text" type="checkbox"><span data-copy="largeText">Use larger text</span></label>
+            <label class="sam-check"><input id="reduce-motion" type="checkbox"><span data-copy="quietMotion">Reduce decorative motion</span></label>
+            <label class="sam-check"><input id="save-activity" type="checkbox"><span data-copy="saveActivity">Remember tool activity on this browser</span></label>
+            <div class="sam-form-actions"><button type="submit" class="btn btn-primary" data-copy="saveProfile">Save profile</button><button type="button" class="btn btn-secondary" id="choose-language" data-copy="chooseLanguage">Choose language</button></div>
+            <p id="profile-message" role="status"></p>
+          </form>
+        </section>
+
+        <section id="help" data-panel="help" aria-labelledby="help-title" hidden>
+          <div class="sam-page-heading"><span class="sam-eyebrow" data-copy="getHelp">Help someone</span><h1 id="help-title" tabindex="-1" data-copy="helpTitle">Share a real tool</h1><p data-copy="helpIntro">Send someone straight to the tool they need. The link includes only the tool, never your activity or profile.</p></div>
+          <div class="sam-card sam-profile">
+            <label for="share-tool" data-copy="chooseTool">Choose a tool</label><select class="text-field" id="share-tool"></select>
+            <label for="share-url" data-copy="toolLink">Tool link</label><input class="text-field" id="share-url" readonly dir="ltr">
+            <div class="sam-form-actions"><button type="button" class="btn btn-primary" id="copy-tool" data-copy="copyTool">Copy tool link</button></div>
+            <p id="helper-message" role="status"></p>
+          </div>
+        </section>
+        <footer class="sam-footer"><span data-copy="footerPrivacy">Your profile stays on this browser. Your files and previews stay on your device.</span></footer>
+      </main>
+    </div>
+  </div>
+  <nav class="sam-mobile-nav sam-nav" aria-label="Mobile workspace" data-nav-menu></nav>
+  <dialog id="welcome" class="sam-welcome" aria-labelledby="welcome-title">
+    <form method="dialog" class="sam-welcome-close"><button aria-label="Close" value="close">×</button></form>
+    <img src="assets/samajh-mark.webp" alt="" width="68" height="68">
+    <b lang="ur" dir="rtl">سمجھ</b><small lang="en">Samajh</small>
+    <h2 id="welcome-title" data-copy="welcomeTitle">Hello. You belong here.</h2>
+    <p data-copy="welcomeIntro">Choose the language you’d like to see in your workspace.</p>
+    <div class="sam-language-options"><button type="button" data-language="en" lang="en">English</button><button type="button" data-language="ur" lang="ur" dir="rtl">اردو</button><button type="button" data-language="roman" lang="ur-Latn">Roman Urdu</button></div>
+  </dialog>
+  <noscript>Enable JavaScript to open the dashboard and use Samajh’s tools.</noscript>
+  <script type="module" src="workspace.js"></script>
+  <script type="module" src="live.js"></script>
+  <script type="module" src="device-tools.js"></script>
 </body>
 </html>

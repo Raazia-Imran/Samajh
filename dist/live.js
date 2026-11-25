@@ -1,5 +1,6 @@
 import { meetingURL, renamedFileName, fileExtension, shareableURL } from './live-utils.js';
 const $ = id => document.getElementById(id);
+const record = task => window.dispatchEvent(new CustomEvent('samajh:activity', { detail: task }));
 function status(id, message, error = false) {
   const element = $(id);
   element.textContent = message;
@@ -12,6 +13,7 @@ $('meeting-form').addEventListener('submit', event => {
   const link = document.createElement('a');
   link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.click();
   status('meeting-status', 'Meeting link handed off to your browser. Continue joining in Zoom or Meet.');
+  record('meeting');
 });
 $('rename-file').addEventListener('change', () => {
   const file = $('rename-file').files[0];
@@ -30,6 +32,7 @@ $('rename-form').addEventListener('submit', event => {
   const link = document.createElement('a'); link.href = url; link.download = name; link.click();
   setTimeout(() => URL.revokeObjectURL(url), 30000);
   status('rename-status', `Download requested for ${name}. Check Downloads. Your original file is unchanged.`);
+  record('rename');
 });
 $('pdf-file').addEventListener('change', () => {
   const file = $('pdf-file').files[0];
@@ -40,13 +43,13 @@ $('share-pdf').addEventListener('click', async () => {
   const file = $('pdf-file').files[0];
   if (!file || !file.name.toLowerCase().endsWith('.pdf')) return;
   if (!navigator.share || !navigator.canShare?.({files:[file]})) return status('share-status', 'File sharing is not available in this browser. Open your email or messaging app and attach the selected PDF there.', true);
-  try { await navigator.share({ files: [file] }); status('share-status', 'The device sharing request completed. Check your chosen app to confirm the file was sent.'); }
+  try { await navigator.share({ files: [file] }); status('share-status', 'The device sharing request completed. Check your chosen app to confirm the file was sent.'); record('share-file'); }
   catch (error) { status('share-status', error.name === 'AbortError' ? 'Sharing was cancelled. Nothing else is attempted.' : 'Sharing did not complete. Use your messaging app to attach the PDF.', error.name !== 'AbortError'); }
 });
 $('copy-form').addEventListener('submit', async event => {
   event.preventDefault();
   const url = shareableURL($('copy-url').value);
   if (!url) return status('copy-status', 'Enter an HTTPS link without embedded login credentials.', true);
-  try { await navigator.clipboard.writeText(url); status('copy-status', 'Link copied. Check sharing permissions before pasting it to a recipient.'); }
+  try { await navigator.clipboard.writeText(url); status('copy-status', 'Link copied. Check sharing permissions before pasting it to a recipient.'); record('link'); }
   catch { $('copy-url').select(); status('copy-status', 'Clipboard access is unavailable. Copy the selected text manually.', true); }
 });
