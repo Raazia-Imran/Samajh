@@ -1,7 +1,8 @@
 import { findTasks, languages, tasks, translate } from './workspace-copy.js';
+import { toolGuides } from './tool-guides.js';
 
 const $ = id => document.getElementById(id);
-const defaults = { name: '', language: 'en', large: false, quiet: false, remember: false, welcomed: false };
+const defaults = { name: '', language: 'en', large: false, quiet: false, remember: false, tourSeen: false };
 const profileKey = 'samajh-workspace-profile';
 const activityKey = 'samajh-live-activity';
 const navItems = [['home','home'],['tools','grid'],['activity','pulse'],['help','heart'],['profile','user']];
@@ -12,6 +13,12 @@ const paths = {
   mic:'M9 5a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0Zm-3 5v2a6 6 0 0 0 12 0v-2M12 18v4m-4 0h8',
   screen:'M3 4h18v13H3zm5 17h8m-4-4v4', video:'M3 6h12v12H3zm12 4 6-3v10l-6-3',
   file:'M5 3h9l5 5v13H5zm9 0v6h5M8 13h8m-8 4h6', share:'M12 16V3m-5 5 5-5 5 5M4 13v8h16v-8',
+  folder:'M3 6h7l2 2h9v12H3Z',
+  lock:'M5 11h14v10H5zm3 0V7a4 4 0 0 1 8 0v4',
+  mail:'M3 5h18v14H3zm0 1 9 7 9-7',
+  wifi:'M2 8a16 16 0 0 1 20 0M6 12a10 10 0 0 1 12 0m-9 4a5 5 0 0 1 6 0m-3 4h.01',
+  camera:'M3 7h4l2-3h6l2 3h4v13H3zm13 6a4 4 0 1 0-8 0 4 4 0 0 0 8 0Z',
+  shield:'M12 3c3 2 6 3 9 3 0 8-4 13-9 15-5-2-9-7-9-15 3 0 6-1 9-3Zm0 5v5m0 4h.01',
   link:'m10 13 4-4m-6 6-2 2a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m4-1 2-2a4 4 0 1 1 6 6l-4 4a4 4 0 0 1-6 0',
 };
 
@@ -38,7 +45,7 @@ if (typeof profile.name !== 'string') profile.name = '';
 profile.name = profile.name.slice(0,48);
 const savedActivity = profile.remember ? read(activityKey, []) : [];
 let activity = Array.isArray(savedActivity) ? savedActivity.filter(entry =>
-  entry && tasks.some(task => task.id === entry.task) && Number.isFinite(entry.at) && Number.isFinite(new Date(entry.at).valueOf())).slice(0,60) : [];
+  entry && tasks.some(task => task.id === entry.task && task.event) && Number.isFinite(entry.at) && Number.isFinite(new Date(entry.at).valueOf())).slice(0,60) : [];
 let panel = 'home';
 let selected = tasks[0].id;
 let search = '';
@@ -77,10 +84,60 @@ function renderCatalog() {
     const image = document.createElement('span'); image.className = `sam-tile-icon ${task.color}`; image.append(icon(task.icon));
     const heading = document.createElement('h3'); heading.textContent = localized(task.title);
     const detail = document.createElement('p'); detail.textContent = localized(task.detail);
-    const action = document.createElement('span'); action.className = 'sam-tile-action'; action.textContent = t('openTool');
+    const action = document.createElement('span'); action.className = 'sam-tile-action'; action.textContent = t(task.example ? 'openExample' : task.guide ? 'openGuide' : 'openTool');
     link.append(image, heading, detail, action);
     return link;
   }));
+}
+
+function el(tag, text) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+const deviceChoices = new Map();
+
+function renderGuide(task) {
+  const guide = toolGuides[task.id];
+  const article = $(task.id);
+  article.replaceChildren(el('h2', localized(task.title)), el('p', localized(task.detail)));
+  if (guide.sample) {
+    const sample = el('p', localized(guide.sample));
+    sample.className = 'sam-guide-sample';
+    article.append(sample);
+  }
+  const steps = el('ol');
+  function renderSteps(lines) {
+    steps.replaceChildren(...lines.map(line => el('li', localized(line))));
+    if (guide.finish) steps.append(el('li', localized(guide.finish)));
+  }
+  if (guide.choices) {
+    const picker = el('select');
+    picker.id = task.id + '-platform';
+    picker.className = 'text-field';
+    const label = el('label', t('deviceLabel'));
+    label.htmlFor = picker.id;
+    picker.append(...guide.choices.map(([title], index) => new Option(localized(title), index)));
+    picker.value = deviceChoices.get(task.id) || '0';
+    picker.addEventListener('change', () => {
+      deviceChoices.set(task.id, picker.value);
+      renderSteps(guide.choices[picker.value][1]);
+    });
+    article.append(label, picker);
+    renderSteps(guide.choices[picker.value][1]);
+  } else {
+    renderSteps(guide.steps);
+  }
+  article.append(steps);
+  if (guide.url) {
+    const link = el('a', localized(guide.link));
+    link.className = 'btn btn-secondary';
+    link.href = guide.url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    article.append(link);
+  }
 }
 
 function renderTools() {
@@ -91,6 +148,15 @@ function renderTools() {
     link.textContent = localized(task.title);
     $(task.id).hidden = selected !== task.id;
     return link;
+  }));
+  $('tool-picker').replaceChildren(...tasks.map(task => new Option(localized(task.title), task.id)));
+  $('tool-picker').value = selected;
+  const task = tasks.find(item => item.id === selected);
+  if (task.guide) renderGuide(task);
+  $('tool-questions').replaceChildren(...['whatIs','safeToContinue','troubleshooting'].map((key, index) => {
+    const detail = el('details');
+    detail.append(el('summary', t(key)), el('p', localized(toolGuides[selected].answers[index])));
+    return detail;
   }));
 }
 
@@ -145,7 +211,7 @@ function renderLocale() {
   for (const element of document.querySelectorAll('[data-copy]')) {
     element.textContent = t(element.dataset.copy);
   }
-  renderNav(); renderCatalog(); renderTools(); renderActivity(); renderHelper(); renderPreferences();
+  renderNav(); renderCatalog(); renderTools(); renderActivity(); renderHelper(); renderPreferences(); renderWelcome();
 }
 
 function route(focus = true) {
@@ -171,13 +237,12 @@ function route(focus = true) {
 function selectLanguage(language) {
   if (!Object.hasOwn(languages, language)) return;
   profile.language = language;
-  profile.welcomed = true;
   persistProfile(); renderLocale();
 }
 
 window.addEventListener('hashchange', () => route());
 window.addEventListener('samajh:activity', event => {
-  if (!tasks.some(task => task.id === event.detail)) return;
+  if (!tasks.some(task => task.id === event.detail && task.event)) return;
   const at = Date.now();
   try { sessionStorage.setItem(`samajh-tool-${event.detail}`,String(at)); } catch { /* Tool still works. */ }
   activity = [{task:event.detail,at}, ...activity].slice(0,60);
@@ -189,6 +254,7 @@ $('task-search-form').addEventListener('submit', event => {
 });
 $('task-search').addEventListener('input', event => { if (!event.target.value) { search = ''; renderCatalog(); } });
 $('language-picker').addEventListener('change', event => selectLanguage(event.target.value));
+$('tool-picker').addEventListener('change', event => { location.hash = event.target.value; });
 $('profile-form').addEventListener('submit', event => {
   event.preventDefault();
   profile.name = $('display-name').value.trim();
@@ -209,13 +275,79 @@ $('copy-tool').addEventListener('click', async () => {
 });
 
 const welcome = $('welcome');
-for (const button of welcome.querySelectorAll('[data-language]')) {
-  button.addEventListener('click', () => { selectLanguage(button.dataset.language); welcome.close(); });
+const welcomePages = [
+  ['welcomeTitle','welcomeIntro','home'],
+  ['tourTools','tourToolsIntro','grid'],
+  ['tourPractice','tourPracticeIntro','heart'],
+];
+let welcomePage = 0;
+let welcomeOpener;
+function renderWelcome() {
+  const [title, intro, symbol] = welcomePages[welcomePage];
+  $('welcome-title').textContent = t(title);
+  $('welcome-text').textContent = t(intro);
+  $('welcome-art').dataset.scene = welcomePage;
+  const image = welcomePage === 0 ? el('img') : icon(symbol);
+  if (welcomePage === 0) {
+    image.src = 'assets/samajh-mark.webp';
+    image.alt = '';
+    image.width = image.height = 72;
+  }
+  $('welcome-icon').replaceChildren(image);
+  $('welcome-language').hidden = welcomePage !== 0;
+  $('welcome-back').hidden = welcomePage === 0;
+  $('welcome-next').textContent = t(welcomePage === welcomePages.length - 1 ? 'tourDone' : 'tourNext');
+  for (const button of welcome.querySelectorAll('[data-language]')) {
+    button.setAttribute('aria-pressed', String(button.dataset.language === profile.language));
+  }
+  for (const [index, dot] of [...$('welcome-progress').children].entries()) {
+    dot.classList.toggle('current', index === welcomePage);
+  }
 }
-welcome.addEventListener('close', () => {
-  if (!profile.welcomed) { profile.welcomed = true; persistProfile(); }
-  if (panel === 'home') $('home-title').focus({preventScroll:true});
+
+function showWelcome(opener) {
+  welcomeOpener = opener;
+  welcomePage = 0;
+  renderWelcome();
+  welcome.showModal();
+  $('welcome-title').focus();
+}
+
+for (const button of welcome.querySelectorAll('[data-language]')) {
+  button.addEventListener('click', () => selectLanguage(button.dataset.language));
+}
+$('welcome-back').addEventListener('click', () => {
+  welcomePage -= 1;
+  renderWelcome();
+  $('welcome-title').focus();
 });
-$('choose-language').addEventListener('click', () => welcome.showModal());
+$('welcome-next').addEventListener('click', () => {
+  if (welcomePage === welcomePages.length - 1) {
+    if (panel === 'home') location.hash = 'tools';
+    welcome.close();
+    return;
+  }
+  welcomePage += 1;
+  renderWelcome();
+  $('welcome-title').focus();
+});
+$('welcome-skip').addEventListener('click', () => welcome.close());
+welcome.addEventListener('close', () => {
+  profile.tourSeen = true;
+  persistProfile();
+  (welcomeOpener || $(panel + '-title')).focus({preventScroll:true});
+});
+$('replay-tour').addEventListener('click', event => showWelcome(event.currentTarget));
+for (const task of tasks) {
+  if (task.guide) {
+    const article = el('article');
+    article.id = task.id;
+    article.className = 'sam-card sam-device-guide';
+    $('tool-windows').append(article);
+  } else {
+    $(task.id).lang = 'en';
+    $(task.id).dir = 'ltr';
+  }
+}
 renderLocale(); route(false);
-if (!profile.welcomed && panel === 'home') welcome.showModal();
+if (!profile.tourSeen && panel === 'home' && !location.hash) showWelcome();

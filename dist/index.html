@@ -72,7 +72,8 @@
         <section id="tools" data-panel="tools" aria-labelledby="tools-title" hidden>
           <div class="sam-page-heading"><span class="sam-eyebrow" data-copy="learnByDoing">LEARN BY DOING</span><h1 id="tools-title" tabindex="-1" data-copy="toolsTitle">Tools for everyday tech</h1><p data-copy="toolsIntro">Use your own device, files, and links. Tool instructions are in English.</p></div>
           <div id="tool-tabs" class="sam-tool-tabs" aria-label="Choose a tool"></div>
-          <div class="live-grid" id="tool-windows" lang="en" dir="ltr">
+          <div class="sam-tool-picker"><label for="tool-picker" data-copy="chooseTool">Choose a tool</label><select id="tool-picker" class="text-field"></select></div>
+          <div class="live-grid" id="tool-windows">
       <article class="live-card" id="device"><h2>Check my microphone</h2><p>Allow microphone access, then speak. The meter shows the signal on this device without recording or sending audio.</p><button class="btn btn-primary" id="mic-start" type="button">Start microphone check</button> <button class="btn btn-secondary" id="mic-stop" type="button" disabled>Stop check</button><div class="device-preview" id="mic-preview" hidden><label for="mic-level">Microphone signal</label><meter id="mic-level" min="0" max="100" value="0"></meter></div><p class="live-status" id="mic-status" role="status"></p></article>
       <article class="live-card" id="screen-preview"><h2>Preview a screen or window</h2><p>Choose a window or tab in your browser’s picker. The preview stays on this page. Close anything private before starting.</p><button class="btn btn-primary" id="screen-start" type="button">Choose screen or window</button> <button class="btn btn-secondary" id="screen-stop" type="button" disabled>Stop preview</button><video class="device-video" id="screen-video" autoplay muted playsinline hidden aria-label="Local display preview"></video><p class="live-status" id="screen-status" role="status"></p></article>
       <article class="live-card" id="meeting"><h2>Open my Zoom or Google Meet</h2><p>Paste the meeting invitation from someone you trust. We will open the actual meeting service in a new tab; its own interface handles joining.</p><form id="meeting-form"><label for="meeting-url">Meeting invitation link</label><input class="text-field" id="meeting-url" type="url" required placeholder="https://…" autocomplete="off"><button class="btn btn-primary" type="submit">Open meeting link</button></form><p class="micro">A link opening is not a successful meeting join. Check camera and microphone in the service's preview.</p><p id="meeting-status" class="live-status" role="status" aria-live="polite"></p><div class="live-links"><a href="https://support.zoom.com/" target="_blank" rel="noopener noreferrer">Zoom help</a><a href="https://support.google.com/meet/" target="_blank" rel="noopener noreferrer">Google Meet help</a></div></article>
@@ -80,6 +81,10 @@
       <article class="live-card" id="share-file"><h2>Share a PDF with someone</h2><p>Choose your own PDF, then use your device's sharing menu if it supports file sharing. Otherwise, download or locate the original and attach it in your messaging app.</p><label for="pdf-file">Choose a PDF</label><input class="text-field" id="pdf-file" type="file" accept="application/pdf,.pdf"><button id="share-pdf" class="btn btn-primary" type="button" disabled>Open sharing menu</button><p class="micro">Only a user-selected file goes to the device's share menu. Samajh does not upload it or verify delivery.</p><p id="share-status" class="live-status" role="status" aria-live="polite"></p></article>
       <article class="live-card" id="link"><h2>Copy a link</h2><p>Paste an HTTPS link that you intend to share. Copying does not grant access. Use your service's sharing settings to choose the correct recipient.</p><form id="copy-form"><label for="copy-url">Link to copy</label><input id="copy-url" class="text-field" type="url" required placeholder="https://…" autocomplete="off"><button type="submit" class="btn btn-primary">Copy link</button></form><p id="copy-status" class="live-status" role="status" aria-live="polite"></p><a href="https://support.google.com/drive/answer/2494822" rel="noopener noreferrer" target="_blank">Google Drive sharing instructions</a></article>
     </div>
+          <section class="sam-card sam-tool-help" aria-labelledby="tool-help-title">
+            <h2 id="tool-help-title" data-copy="understand">Help me understand</h2>
+            <div id="tool-questions"></div>
+          </section>
           <p class="sam-muted" data-copy="providerNote">Changes inside Zoom, Meet or Drive happen in those apps. Samajh opens or guides you to the right service.</p>
         </section>
 
@@ -97,7 +102,7 @@
             <label class="sam-check"><input id="larger-text" type="checkbox"><span data-copy="largeText">Use larger text</span></label>
             <label class="sam-check"><input id="reduce-motion" type="checkbox"><span data-copy="quietMotion">Reduce decorative motion</span></label>
             <label class="sam-check"><input id="save-activity" type="checkbox"><span data-copy="saveActivity">Remember tool activity on this browser</span></label>
-            <div class="sam-form-actions"><button type="submit" class="btn btn-primary" data-copy="saveProfile">Save profile</button><button type="button" class="btn btn-secondary" id="choose-language" data-copy="chooseLanguage">Choose language</button></div>
+            <div class="sam-form-actions"><button type="submit" class="btn btn-primary" data-copy="saveProfile">Save profile</button><button type="button" class="btn btn-secondary" id="replay-tour" data-copy="tourReplay">Replay welcome tour</button></div>
             <p id="profile-message" role="status"></p>
           </form>
         </section>
@@ -116,13 +121,22 @@
     </div>
   </div>
   <nav class="sam-mobile-nav sam-nav" aria-label="Mobile workspace" data-nav-menu></nav>
-  <dialog id="welcome" class="sam-welcome" aria-labelledby="welcome-title">
-    <form method="dialog" class="sam-welcome-close"><button aria-label="Close" value="close">×</button></form>
-    <img src="assets/samajh-mark.webp" alt="" width="68" height="68">
-    <b lang="ur" dir="rtl">سمجھ</b><small lang="en">Samajh</small>
-    <h2 id="welcome-title" data-copy="welcomeTitle">Hello. You belong here.</h2>
-    <p data-copy="welcomeIntro">Choose the language you’d like to see in your workspace.</p>
-    <div class="sam-language-options"><button type="button" data-language="en" lang="en">English</button><button type="button" data-language="ur" lang="ur" dir="rtl">اردو</button><button type="button" data-language="roman" lang="ur-Latn">Roman Urdu</button></div>
+  <dialog id="welcome" class="sam-welcome" aria-labelledby="welcome-title" aria-describedby="welcome-text">
+    <div class="sam-welcome-art" id="welcome-art"><span id="welcome-icon" aria-hidden="true"></span></div>
+    <h2 id="welcome-title" tabindex="-1"></h2>
+    <p id="welcome-text"></p>
+    <fieldset id="welcome-language" class="sam-language-options">
+      <legend class="sam-visually-hidden" data-copy="language">Language</legend>
+      <button type="button" data-language="en" lang="en">English</button>
+      <button type="button" data-language="ur" lang="ur" dir="rtl">اردو</button>
+      <button type="button" data-language="roman" lang="ur-Latn">Roman Urdu</button>
+    </fieldset>
+    <div class="sam-tour-progress" id="welcome-progress" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="sam-tour-actions">
+      <button type="button" class="btn btn-secondary" id="welcome-back" data-copy="tourBack">Back</button>
+      <button type="button" class="btn btn-secondary" id="welcome-skip" data-copy="tourSkip">Skip tour</button>
+      <button type="button" class="btn btn-primary" id="welcome-next"></button>
+    </div>
   </dialog>
   <noscript>Enable JavaScript to open the dashboard and use Samajh’s tools.</noscript>
   <script type="module" src="workspace.js"></script>

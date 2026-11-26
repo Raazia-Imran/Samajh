@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from './public-config.js';
-import { CONTRIBUTIONS_OPEN } from './studio-config.js';
+import { CONTRIBUTIONS_OPEN, EMAIL_SIGN_IN } from './studio-config.js';
 import { curated, packs, draftKey, validatePractice } from '../dist/practice-data.js';
 
 const $ = id => document.getElementById(id);
@@ -55,10 +55,10 @@ function practiceCard(item, source) {
   const check = el('p'); check.append(el('strong','Check your result'), el('br'), document.createTextNode(item.success_check));
   details.append(steps,check);
   if (item.tool) {
-    const link = el('a','Open the real tool'); link.href = `index.html#${item.tool}`;
+    const link = el('a', item.example ? 'View the learning example' : item.event ? 'Open the tool' : 'Open the device guide'); link.href = `index.html#${item.tool}`;
     link.className = 'btn btn-primary'; details.append(link);
     const last = Number(sessionStorageOnly.getItem(`samajh-tool-${item.tool}`));
-    if (last > 0 && Date.now() - last < 60 * 60 * 1000) details.append(el('p',`This browser recorded: ${item.event}. Check the result above.`));
+    if (item.event && last > 0 && Date.now() - last < 60 * 60 * 1000) details.append(el('p',`This browser recorded: ${item.event}. Check the result above.`));
   }
   if (source !== 'review') {
     const done = action(completions.has(item.id) ? 'Checked by you' : 'I checked my result', event => {
@@ -262,21 +262,44 @@ if (client && CONTRIBUTIONS_OPEN) {
   client.auth.onAuthStateChange((_event,session) => {
     user = session?.user; const revision = ++authRevision;
     reviewer = false; $('reviewer').hidden = true;
-    $('studio-sign-in').hidden = !!user;
+    $('studio-google').hidden = !!user;
+    $('studio-sign-in').hidden = !!user || !EMAIL_SIGN_IN;
     $('studio-sign-out').hidden = !user;
     $('my-submissions').hidden = !user;
     $('contribution-hint').hidden = !!user;
     $('submission-list').replaceChildren();
     $('submit-practice').disabled = !user || submittedBusy;
-    status('studio-auth-status',user ? 'Signed in for this tab. You can now submit practices for review.' : 'Sign in by email to submit or report practices. Private drafts and curated practices don’t require an account.');
+    status('studio-auth-status',user ? 'Signed in for this tab. You can now submit practices for review.' : 'Continue with Google to submit or report practices. Private drafts and curated practices don’t require an account.');
     renderLibrary();
     if (user) setTimeout(() => loadAccount(revision).catch(() => status('studio-auth-status','Could not load contribution permissions.')),0);
   });
+  const redirect = new URL('studio.html',location.href).href;
+  $('studio-google').addEventListener('click', async event => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    try {
+      // The PKCE verifier must survive the redirect in this tab.
+      sessionStorage.setItem('samajh-auth-storage-check', 'ok');
+      sessionStorage.removeItem('samajh-auth-storage-check');
+      const {data, error} = await client.auth.signInWithOAuth({
+        provider: 'google',
+        options: {redirectTo:redirect, skipBrowserRedirect:true},
+      });
+      if (error || !data?.url) throw error || new Error('Missing sign-in URL');
+      location.assign(data.url);
+    } catch {
+      status('studio-auth-status','Could not open Google sign-in. Allow storage for this site and try again. You can still use practices and private drafts.');
+      button.disabled = false;
+    }
+  });
+  client.auth.initialize().then(({error}) => {
+    if (error && !user) status('studio-auth-status','Sign-in could not be completed. Try again in this tab.');
+  });
   $('studio-sign-in').addEventListener('submit',async event => {
     event.preventDefault();
+    if (!EMAIL_SIGN_IN) return;
     const button = event.currentTarget.querySelector('button'); button.disabled = true;
     try {
-      const redirect = new URL('studio.html',location.href).href;
       const {error} = await client.auth.signInWithOtp({email:$('studio-email').value.trim(),options:{emailRedirectTo:redirect}});
       status('studio-auth-status',error ? 'Sign-in email could not be sent. You can still use practices and drafts.' : 'Check your inbox. Open the sign-in link in this same tab so your session can be verified.');
     } catch { status('studio-auth-status','Sign-in service is unavailable.'); }
