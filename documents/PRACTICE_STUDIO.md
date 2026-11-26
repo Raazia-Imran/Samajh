@@ -2,6 +2,8 @@
 
 The studio includes 12 curated practices, four color-coded packs, and a private browser-local practice builder. Personal drafts and guided practices work without an account. “Checked by you” is a learner confirmation. A browser-recorded tool signal means the specific local action happened, such as requesting a download, not that an external task succeeded.
 
+[Download the two-page owner setup guide](Samajh_Community_Publishing_Setup.pdf) for the exact Google and Supabase URLs, reviewer setup, and launch checks.
+
 ## Publish and maintain submissions
 
 1. The Studio schema is already applied on production. For a separate development project, apply the checked-in migration once and rebuild with that project’s public configuration.
